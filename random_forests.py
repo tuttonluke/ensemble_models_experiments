@@ -3,11 +3,11 @@ import numpy as np
 np.set_printoptions(suppress=True)
 np.random.seed(42)
 import json
-import matplotlib.pyplot as plt
 from random_forests_and_bagging import create_bootstrapped_dataset
 import sklearn.datasets
+from sklearn.ensemble import RandomForestClassifier
 import sklearn.tree
-from utils import get_classification_data, show_data, colors, visualise_predictions
+from utils import get_classification_data, visualise_predictions
 # %%
 def project_into_subspace(X, feature_idxs):
     """
@@ -66,4 +66,8 @@ if __name__ == "__main__":
     randomForest.predict(X) # make predictions
     visualise_predictions(randomForest.predict, X, Y) # visualise
     print('forest:', randomForest) # use our __repr__ method to visualise the tree
-# %%
+# %% SKLEARN IMPLEMENTATION 
+randomForest = RandomForestClassifier(n_estimators=80, max_depth=2, max_samples=10) # init random forest
+randomForest.fit(X, Y) # fit random forest of decision trees
+visualise_predictions(randomForest.predict, X, Y) # visualise
+randomForest.score(X, Y) # use the model's score method to compute its accuracy
