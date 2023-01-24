@@ -80,8 +80,11 @@ model = AdaBoostClassifier()
 grid = {}
 grid['n_estimators'] = [10, 50, 100, 200, 500]
 grid['learning_rate'] = [0.0001, 0.01, 0.1, 1.0, 1.1, 1.2]
-grid['depth'] = [i + 1 for i in range(8)]
 
 cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3)
 
 grid_search = GridSearchCV(estimator=model, param_grid=grid, n_jobs=1, cv=cv, scoring="accuracy")
+
+grid_result = grid_search.fit(X_train, y_train)
+
+print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
